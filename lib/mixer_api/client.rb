@@ -88,8 +88,10 @@ module MixerApi
       where_clauses = []
       where_clauses << "channelId:eq:#{options[:channel_id]}" if options[:channel_id]
       where_clauses << "id:gt:#{options[:since_id]}" if options[:since_id]
+      where_clauses << "id:in:#{options[:ids].join(';')}" if options[:ids]
+      where_clauses << "id:eq:#{options[:id]}" if options[:id]
 
-      query_params[:where] = where_clauses.join(';') unless where_clauses.empty?
+      query_params[:where] = where_clauses.join(',') unless where_clauses.empty?
       query_params[:page] = options[:page] if options[:page]
       query_params[:limit] = options[:limit] if options[:limit]
       query_params[:limit] = 1 if options[:count_only]
