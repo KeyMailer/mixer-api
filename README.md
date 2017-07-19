@@ -67,6 +67,6 @@ The default adapter is `MixerApi::Adapters::HTTPartyAdapter` which uses the [HTT
 
 Feel free to contribute or add functionality!
 
-### Credits
+## Credits
 
 Derived from the [twitch-rb gem](https://github.com/dustinlakin/twitch-rb)

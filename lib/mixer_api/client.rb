@@ -83,14 +83,21 @@ module MixerApi
     # Recordings
 
     def recordings(options={})
-
       query_params = {}
-      query_params[:where] = "channelId:eq:#{options[:channel_id]}" if options[:channel_id]
-      query_params[:limit] = '1' if options[:count_only]
+
+      where_clauses = []
+      where_clauses << "channelId:eq:#{options[:channel_id]}" if options[:channel_id]
+      where_clauses << "id:gt:#{options[:since_id]}" if options[:since_id]
+
+      query_params[:where] = where_clauses.join(';') unless where_clauses.empty?
+      query_params[:page] = options[:page] if options[:page]
+      query_params[:limit] = options[:limit] if options[:limit]
+      query_params[:limit] = 1 if options[:count_only]
+
+      query_params[:order] = 'id:ASC'
 
       url = @base_url + '/recordings'
       get(url, query_params)
-
     end
 
 
