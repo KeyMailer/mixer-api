@@ -1,3 +1,4 @@
+require 'time'
 require 'mixer_api/request'
 require 'mixer_api/adapters'
 
@@ -104,6 +105,23 @@ module MixerApi
       get(url, query_params)
     end
 
+    # -------------------------------------------------------------------
+    # Analytics
+
+    ANALYTICS_NAMES = %w(streamSessions streamHosts viewers viewersMetrics
+                         subscriptions followers sparkSpent emojiUsageRanks
+                         emojiUsage gameRanks gameRanksGlobal subRevenue cpm)
+
+    def analytics(analytics_name, options={})
+      ANALYTICS_NAMES.include?(analytics_name) or raise "Unknown analytics name: #{analytics_name}"
+      channel_id = options.delete(:channel_id) or raise 'Channel ID is required'
+      
+      options[:from] ||= default_from
+      query_params = build_query_params(options)
+      url = @base_url + '/channels/' + channel_id.to_s + '/analytics/tsdb/' + analytics_name
+      get(url, query_params)
+    end
+
 
     # -------------------------------------------------------------------
 
@@ -123,7 +141,15 @@ module MixerApi
       query_params[:limit] = options[:limit] if options[:limit]
       query_params[:limit] = 1 if options[:count_only]
 
+      query_params[:from] = options[:from].utc.iso8601 if options[:from]
+      query_params[:to] = options[:to].utc.iso8601 if options[:to]
+
       query_params
+    end
+
+    def default_from
+      # 14 days ago
+      (Date.today - 14).to_time
     end
   end
 end
