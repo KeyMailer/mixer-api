@@ -1,6 +1,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 
-require "mixer_api/version"
+require 'mixer_api/version'
+require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'mixer_api'

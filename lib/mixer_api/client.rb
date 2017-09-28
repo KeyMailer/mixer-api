@@ -115,7 +115,7 @@ module MixerApi
     def analytics(analytics_name, options={})
       ANALYTICS_NAMES.include?(analytics_name) or raise "Unknown analytics name: #{analytics_name}"
       channel_id = options.delete(:channel_id) or raise 'Channel ID is required'
-      
+
       options[:from] ||= default_from
       query_params = build_query_params(options)
       url = @base_url + '/channels/' + channel_id.to_s + '/analytics/tsdb/' + analytics_name
