@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.files       = Dir["lib/**/*"]
   s.require_paths = ["lib"]
   
-  s.add_dependency 'httparty', '~> 0'
+  s.add_dependency 'httparty'
   # s.add_dependency('json')
 end
